@@ -20,12 +20,7 @@ status_code=200,
 )
 def home():
     
-    r = requests.get("http://127.0.0.1:8000/todos/")
-    print(r.json())
-    re = json.dumps(r.json())
-
-    with open('apiconsumed.json', 'w') as f:
-        f.write(re)
+   return "Hello you!"
 
 
 
