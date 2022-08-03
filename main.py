@@ -66,8 +66,14 @@ def  post_todo( payload: TodoCreate):
     pay = dict(payload)
     spay = str( pay["created"]  )
     pay["created"] = spay
-    with open('db.json', 'a') as f:
-        json.dump(pay, f)
+    
+    with open('db.json', 'r') as f:
+       data = json.load(f)
+    
+    data.append(pay)
+    
+    with open('db.json', 'w') as f:
+        json.dump(data, f)
 
     return payload
 
