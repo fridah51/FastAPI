@@ -1,21 +1,19 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional,List
 import itertools
 
 
-id_iter = itertools.count()
+# id_iter = itertools.count()
 #(next(id_iter))
 
-class TodoBase(BaseModel):
-    id:int   
+class TodoBase(BaseModel): 
     title:str
     description:str
-    completed:bool
-    created:Optional[datetime]
-
+   
+   
 class TodoCreate(TodoBase):
-    pass
+    user_id:int
    
 
 class TodoPut(BaseModel):
@@ -28,3 +26,48 @@ class Todos(TodoBase):
     id:int
     completed:bool
     created:datetime
+    
+    class Config:
+        orm_mode = True
+    
+    
+#users schema sasa
+
+class UserBase(BaseModel):  
+    first_name:str
+    last_name:str
+    email:str
+    
+
+class UserCreate(UserBase):
+    pass
+   
+
+class UserPut(BaseModel):
+    first_name:Optional[str]
+    last_name:Optional[str]
+    email:Optional[str]
+    
+
+class Users(UserBase):
+    id:int
+    created:datetime
+    
+    class Config:
+        orm_mode = True
+    
+class UsersInDb(UserBase):
+    id:int
+    created:datetime
+    todos:List[Todos]
+    
+    class Config:
+        orm_mode = True
+
+class TodosInDb(TodoBase):
+    id:int
+    completed:bool
+    created:datetime
+    user:Users
+    class Config:
+        orm_mode = True
